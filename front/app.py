@@ -1,6 +1,7 @@
 import os
 from db import db
 from models import User
+from collections import defaultdict
 from flask import Flask, render_template, flash, redirect, url_for, request, jsonify
 from flask_login import LoginManager, current_user, login_user, logout_user, login_required
 from forms import RegistrationForm, LoginForm
@@ -35,7 +36,7 @@ def home():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('search'))
+        return redirect(url_for('categories'))
     
     # Sets up form and functionality
     form = LoginForm()
@@ -47,7 +48,7 @@ def login():
         if user and user.check_password(form.password.data):
             login_user(user, remember=form.remember.data)
             next_page = request.args.get('next')
-            return redirect(next_page or url_for('search'))
+            return redirect(next_page or url_for('categories'))
         
         # Input validation to inform user of input invalid
         else:
@@ -78,6 +79,40 @@ def register():
         flash('Account created successfully! You can now log in.', 'success')
         return redirect(url_for('login'))
     return render_template('register.html', title='Register', form=form)
+
+@app.route('/buy')
+def buy():
+    print("buy")
+
+@app.route('/sell')
+def sell():
+    print("sell")
+
+@app.route('/chat', methods=['GET', 'POST'])
+def chat():
+    print("chat")
+    return render_template('chat.html')
+
+# Route for categories
+@app.route('/categories')
+def categories():
+    categories = {
+        "bed & bath": url_for('static', filename='images/bed-bath.png'),
+        "decorations": url_for('static', filename='images/decor.png'),
+        "laundry & cleaning": url_for('static', filename='images/laund-clean.png'),
+        "organization & storage": url_for('static', filename='images/stor-org.png'),
+        "appliances": url_for('static', filename='images/appliance.png'),
+        "studysupplies": url_for('static', filename='images/studysup.png')
+    }
+    return render_template('categories.html', categories=categories)
+
+# Route for category-specific listings
+@app.route('/<category>/listings')
+def listings(category):
+    # categories: bed + bath, decorations, laundry + cleaning, organization + storage, appliances, study supplies
+    filtered_listings = [listing for listing in mock_listings if listing['category'].replace(" ", "").lower() == category.replace(" ", "").lower()]
+    return render_template('listings.html', category=category, listings=filtered_listings)
+
 
 # Route for logout
 @app.route('/logout')

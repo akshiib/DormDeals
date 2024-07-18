@@ -1,0 +1,51 @@
+main {
+  display: flex;
+  justify-content: center;
+  padding: 133px;
+}
+
+.col-md-8 {
+  flex: auto;
+  display: flex;
+  justify-content: center;
+  width: 700px;
+}
+
+.login-container {
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 700px;
+}
+
+.form-control {
+  margin-bottom: 10px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.btn-outline-info {
+  color: white;
+  border-color: white;
+}
+
+.btn {
+  border-radius: 20px;
+  background-color: #397367;
+  color: white;
+  width: 200px;
+  height: 50px;
+}
+
+.btn:hover {
+  color: #397367;
+  background-color: white;
+  border-color: #397367;
+}
+
+.invalid-feedback {
+  color: red;
+}

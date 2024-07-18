@@ -1,0 +1,26 @@
+{% extends "base.html" %} {% block content %}
+
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{{ url_for('static', filename='categories.css') }}"
+/>
+
+<div class="categories-container">
+  <h1><strong>Categories</strong></h1>
+  <div class="row">
+    {% for category, image_url in categories.items() %}
+    <div class="col-md-4 mb-4">
+      <a
+        href="{{ url_for('listings', category=category.replace(' ', '').lower()) }}"
+      >
+        <div class="card">
+          <img src="{{ image_url }}" alt="{{ category }}" />
+        </div>
+      </a>
+      <h3>{{ category }}</h3>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

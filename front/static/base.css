@@ -1,0 +1,49 @@
+/* General styles */
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin: 0;
+}
+
+main {
+  flex: 1;
+}
+
+.navbar {
+  background-color: #35393c;
+}
+
+.nav-link a {
+  color: #bbbbbf;
+}
+
+.navbar .navbar-nav .nav-link:hover {
+  color: white !important;
+}
+
+footer {
+  background-color: #35393c;
+  color: #bbbbbf;
+}
+
+.footer-links {
+  list-style: none; /* Remove bullet points from footer links */
+  padding: 0; /* Remove default padding */
+}
+
+.footer-links li {
+  display: inline; /* Display footer links in a line */
+  margin: 0 1rem; /* Add space between links */
+}
+
+.footer-links a {
+  color: #bbbbbf; /* Set link color */
+  text-decoration: none; /* Remove underline from links */
+}
+
+.footer-links a:hover {
+  color: white;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out;
+}

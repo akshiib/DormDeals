@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Upload Image</title>
+</head>
+<body>
+    <h1>Upload Image</h1>
+
+    <!-- Upload Form -->
+    <form method="post" enctype="multipart/form-data" action="/">
+        <!--First Name -->
+        <div>
+            <label for="first">First Name:</label>
+            <input type="text" id="first" name="first" required>
+        </div>
+        <!-- Last Name -->
+        <div>
+            <label for="last">Last Name:</label>
+            <input type="text" id="last" name="last" required>
+        </div>
+        <!-- Email -->
+        <div>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+        <!-- Condition -->
+        <div>
+            <label for="condition">Condition:</label>
+            <select id="condition" name="condition" required>
+                <option value="">Select Condition</option>
+                <option value="old">Worn</option>
+                <option value="middle">Used, but still in good shape</option>
+                <option value="new">Unused</option>
+            </select>
+        </div>
+        <!-- Image File -->
+        <div>
+            <label for="file">Select image:</label>
+            <input type="file" id="file" name="file" accept="image/*" required>
+        </div>
+        <!-- Description -->
+        <div>
+            <label for="description">Description:</label>
+            <input type="text" id="description" name="description" required>
+        </div>
+        <!-- Tags -->
+        <div>
+            <label for="tags">Tags (comma separated):</label>
+            <input type="text" id="tags" name="tags" required>
+        </div>
+        <!-- Date -->
+        <div>
+            <label for="upload_date">Upload Date:</label>
+            <input type="date" id="upload_date" name="upload_date" required>
+        </div>
+        <!-- Submit Button -->
+        <div>
+            <button type="submit">Upload</button>
+        </div>
+    </form>
+
+    <!-- Form for Download Button -->
+    <form method="get" action="/download">
+        <div>
+            <button type="submit">Download</button>
+        </div>
+    </form>
+
+</body>
+</html>

@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Display Image</title>
+  </head>
+  <body>
+    <h1>Image Display</h1>
+    <img src="data:image/jpeg;base64,{{ image_data }}" alt="Image">
+    <div>
+      <h2>Metadata</h2>
+      <p>Description: {{ image_metadata.description }}</p>
+      <p>Tags: {{ image_metadata.tags | join(', ') }}</p>
+      <p>Upload Date: {{ image_metadata.upload_date }}</p>
+    </div>
+  </body>
+</html>

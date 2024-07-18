@@ -29,10 +29,28 @@
             <label for="condition">Condition:</label>
             <select id="condition" name="condition" required>
                 <option value="">Select Condition</option>
-                <option value="old">Worn</option>
-                <option value="middle">Used, but still in good shape</option>
-                <option value="new">Unused</option>
+                <option value="worn">Worn</option>
+                <option value="used, but still in good shape">Used, but still in good shape</option>
+                <option value="unused">Unused</option>
             </select>
+        </div>
+        <!-- Category -->
+        <div>
+            <label for="Category">Category:</label>
+            <select id="category" name="category" required>
+                <option value="">Select Category</option>
+                <option value="appliances">Appliances</option>
+                <option value="study supplies">Study Supplies</option>
+                <option value="organization & storage">Organization & Storage</option>
+                <option value="laundry & cleaning">Laundry & Cleaning</option>
+                <option value="decoration">Decoration</option>
+                <option value="bed & bath">Bed & Bath</option>
+            </select>
+        </div>
+        <!-- Price -->
+        <div>
+            <label for="price">Money in Dollars:</label>
+            <input type="number" id="price" name="price" min="0" step="1" placeholder="Enter amount" required>
         </div>
         <!-- Image File -->
         <div>

@@ -6,12 +6,23 @@
   </head>
   <body>
     <h1>Image Display</h1>
+    <!-- Decoding & Displaying image -->
     <img src="data:image/jpeg;base64,{{ image_data }}" alt="Image">
     <div>
+      <!-- Display Metadata -->
       <h2>Metadata</h2>
       <p>Description: {{ image_metadata.description }}</p>
       <p>Tags: {{ image_metadata.tags | join(', ') }}</p>
+       <!-- Display Metadata -->
+      <h2>Item Details</h2>
+      <p>Category: {{ category }}</p>
+      <p>Condition: {{ condition }}</p>
+      <p>Price: {{ price }}</p>
       <p>Upload Date: {{ image_metadata.upload_date }}</p>
+      <!-- Display Name, Email, Price -->
+      <h2>Seller Details</h2>
+      <p>Name: {{ name }}</p>
+      <p>Email: {{ email }}</p>
     </div>
   </body>
 </html>

@@ -30,8 +30,10 @@ def allowed_file(filename):
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
-"""Function takes three params -> image_path (constructed image path from upload folder), image metadata
-and user_data. User data includes first & last name, email, and condition. Function inserts all params in MONGODB"""
+"""
+Function takes three params -> image_path (constructed image path from upload folder), image metadata
+and user_data. User data includes first & last name, email, and condition. Function inserts all params in MONGODB
+"""
 def insert_to_db(image_path, metadata, user_data):
     # Opens image in read binary mode
     with open(image_path, 'rb') as image_file:
@@ -45,6 +47,8 @@ def insert_to_db(image_path, metadata, user_data):
             'name':full_name,
             'email':user_data['email'],
             'condition':user_data['condition'],
+            'category':user_data['category'],
+            'price':user_data['price'],
             'image': encoded_image,
             'metadata': metadata
         }
@@ -52,15 +56,24 @@ def insert_to_db(image_path, metadata, user_data):
         collection.insert_one(document)
         print(f"Uploaded {image_path} to MongoDB with metadata.")
 
+
+"""
+Function that displays the form, saves the uploaded image in the upload folder, and send all information
+to be stored in MONGODB
+"""
 @app.route('/', methods=['GET', 'POST'])
 def upload_file():
+    # When upload button is clicked (form is submitted)
     if request.method == 'POST':
         file = request.files['file']
+
+        # If file has the correct extension, sanitize the file name save the image in the upload folder
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             file.save(file_path)        # Saving to the uploads folder
 
+            # Extracting other data from form 
             metadata = {
                 'description': request.form['description'],
                 'tags': request.form['tags'].split(','),
@@ -71,7 +84,9 @@ def upload_file():
                 'first_name':request.form['first'],
                 'last_name':request.form['last'],
                 'email':request.form['email'],
-                'condition':request.form['condition']
+                'condition':request.form['condition'],
+                'category':request.form['category'],
+                'price':request.form['price']
             }
 
             insert_to_db(file_path, metadata, user_data)
@@ -80,19 +95,30 @@ def upload_file():
     return render_template('upload.html')
 
 
+"""
+Function retrieves data from MONGODB and displays the first entry's image and metadata
+"""
 @app.route('/download', methods=['GET'])
 def download_file():
     if request.method == 'GET':
-        #retrieve from mongodb 
-        image_doc = collection.find_one()
-        print(image_doc.keys())
-        if image_doc:
-            image_data = image_doc['image']
-            image_metadata = image_doc['metadata']
-            return render_template('display_image.html', image_data=image_data, image_metadata=image_metadata)  
+        # Retrieve the first entry
+        doc = collection.find_one()
+        
+        # Display Image & Metadata
+        if doc:
+            name = doc['name']
+            email = doc['email']
+            price = doc['price']
+            category = doc['category']
+            condition = doc['condition']
+            image_data = doc['image']
+            image_metadata = doc['metadata']
+            return render_template('display_image.html', image_data=image_data, image_metadata=image_metadata, price=price, category=category, condition=condition, name=name, email=email)  
         else:
-            return "Image not found"
+            return "Not found"
+   
    
 if __name__ == "__main__":
+    # If upload folder doesn't exist, create it in the same dir
     os.makedirs(UPLOAD_FOLDER, exist_ok=True)
     app.run(debug=True)

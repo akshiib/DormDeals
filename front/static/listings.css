@@ -1,0 +1,51 @@
+h1 {
+  color: #397367;
+  margin-bottom: 2rem; /* Space below the heading */
+  text-align: center;
+  padding: 20px;
+}
+
+.listing-container {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  padding: 10px;
+}
+
+.row {
+  justify-content: space-evenly;
+}
+
+.col-md-4 {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 400px;
+}
+
+.card {
+  width: 400px;
+  transition: transform 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  padding: 10px;
+}
+
+.card-img-top {
+  background-color: #bbbbbc;
+  padding: 10px;
+}
+
+.msg-btn {
+  width: 379px;
+  transition: background-color 0.15s ease-in-out, color 0.15s ease-in-out,
+    transform 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.msg-btn:hover {
+  background-color: #397367;
+  color: white;
+}
+
+/* 
+.card:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+} */

@@ -1,28 +1,50 @@
 <!doctype html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="utf-8">
     <title>Display Image</title>
-  </head>
-  <body>
+    <style>
+        .image-container {
+            width: 300px; 
+            height: 300px; 
+            overflow: hidden; 
+            border: 1px solid #ccc; 
+        }
+        .image-container img {
+            width: 100%; 
+            height: auto; 
+            object-fit: cover; 
+        }
+        .metadata {
+            margin-top: 20px; 
+        }
+    </style>
+</head>
+<body>
     <h1>Image Display</h1>
-    <!-- Decoding & Displaying image -->
-    <img src="data:image/jpeg;base64,{{ image_data }}" alt="Image">
-    <div>
-      <!-- Display Metadata -->
-      <h2>Metadata</h2>
-      <p>Description: {{ image_metadata.description }}</p>
-      <p>Tags: {{ image_metadata.tags | join(', ') }}</p>
-       <!-- Display Metadata -->
-      <h2>Item Details</h2>
-      <p>Category: {{ category }}</p>
-      <p>Condition: {{ condition }}</p>
-      <p>Price: {{ price }}</p>
-      <p>Upload Date: {{ image_metadata.upload_date }}</p>
-      <!-- Display Name, Email, Price -->
-      <h2>Seller Details</h2>
-      <p>Name: {{ name }}</p>
-      <p>Email: {{ email }}</p>
+
+    <!-- Image Display Container -->
+    <div class="image-container">
+        <img src="data:image/jpeg;base64,{{ image_data }}" alt="Image">
     </div>
-  </body>
+
+    <!-- Metadata Display -->
+    <div class="metadata">
+        <h2>Metadata</h2>
+        <p>Description: {{ image_metadata.description }}</p>
+        <p>Tags: {{ image_metadata.tags | join(', ') }}</p>
+        <p>Upload Date: {{ image_metadata.upload_date }}</p>
+
+        <!-- Item Details -->
+        <h2>Item Details</h2>
+        <p>Category: {{ category }}</p>
+        <p>Condition: {{ condition }}</p>
+        <p>Price: ${{ price }}</p>
+
+        <!-- Seller Details -->
+        <h2>Seller Details</h2>
+        <p>Name: {{ name }}</p>
+        <p>Email: {{ email }}</p>
+    </div>
+</body>
 </html>

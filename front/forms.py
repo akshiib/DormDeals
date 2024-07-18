@@ -28,4 +28,20 @@ class LoginForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired()])
     remember = BooleanField('Remember Me')
     submit = SubmitField('Login')
+
+class SellerForm(FlaskForm):
+    item_name = StringField('Item Name', validators=[DataRequired(), Length(max=100)])
+    price = DecimalField('Price ($)', validators=[DataRequired(), NumberRange(min=0)], places=2)
+    years_used = IntegerField('Number of Years Used', validators=[DataRequired(), NumberRange(min=0, max=10)])
+    image = FileField('Image', validators=[DataRequired()])
+    category = SelectField('Category', choices=[
+        ('decor', 'Decor'), 
+        ('laundry_cleaning', 'Laundry/Cleaning Essentials'), 
+        ('organization_storage', 'Organization/Storage'), 
+        ('appliances', 'Appliances'), 
+        ('study_supplies', 'Study Supplies'), 
+        ('bed_bath', 'Bed and Bath')
+    ], validators=[DataRequired()])
+    submit = SubmitField('Sell Item')
+
     

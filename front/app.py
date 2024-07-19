@@ -30,6 +30,53 @@ def load_user(user_id):
 # Route for home
 @app.route('/')
 def home():
+    mock_listings = [
+        {
+            "name": "pillow",
+            "image": url_for('static', filename='images/bed-bath.png'),
+            "price": "$10",
+            "condition": "middle",
+            "category": "bed & bath"
+        },
+        {
+            "name": "poster",
+            "image": url_for('static', filename='images/bed-bath.png'),
+            "price": "$5",
+            "condition": "high",
+            "category": "decorations"
+        },
+        {
+            "name": "Detergent",
+            "image": url_for('static', filename='images/bed-bath.png'),
+            "price": "$20",
+            "condition": "low",
+            "description": "red blanket",
+            "email": "email@wmial.com",
+            "category": "laundry & cleaning"
+        },
+        {
+            "name": "dresser",
+            "image": url_for('static', filename='images/bed-bath.png'),
+            "price": "$50",
+            "condition": "middle",
+            "category": "organization & storage",
+        },
+        {
+            "name": "kettle",
+            "image": url_for('static', filename='images/bed-bath.png'),
+            "price": "$15",
+            "condition": "high",
+            "category": "appliances"
+        },
+        {
+            "name": "desk lamp",
+            "image": url_for('static', filename='images/bed-bath.png'),
+            "price": "$5",
+            "wear": "high",
+            "condition": "medium",
+            "category": "study supplies",
+        }
+    ]
     return render_template('home.html', listings=mock_listings)
 
 # Route for login
@@ -114,6 +161,7 @@ def categories():
 @app.route('/<category>/listings')
 @login_required
 def listings(category):
+    
     # categories: bed + bath, decorations, laundry + cleaning, organization + storage, appliances, study supplies
     filtered_listings = [listing for listing in mock_listings if listing['category'].replace(" ", "").lower() == category.replace(" ", "").lower()]
     return render_template('listings.html', category=category, listings=filtered_listings)

@@ -29,10 +29,10 @@
         <div class="container">
           <a class="navbar-brand" href="{{ url_for('home') }}">
             <img
-              src="{{ url_for('static', filename='logo.png') }}"
+              src="{{ url_for('static', filename='images/logo.png') }}"
               alt="TBD Logo"
               class="d-inline-block align-text-top"
-              style="height: 40px"
+              style="height: 80px"
             />
             TBD
           </a>
@@ -61,6 +61,9 @@
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link">Welcome, {{current_user.username}}!</a>
               </li>
               {% else %}
               <li class="nav-item">

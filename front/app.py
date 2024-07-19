@@ -22,6 +22,7 @@ with app.app_context():
     db.create_all()
 
 @login_manager.user_loader
+
 def load_user(user_id):
     return User.query.get(int(user_id))
 
@@ -29,8 +30,7 @@ def load_user(user_id):
 # Route for home
 @app.route('/')
 def home():
-    print("Hello World!")
-    return render_template('home.html')
+    return render_template('home.html', listings=mock_listings)
 
 # Route for login
 @app.route('/login', methods=['GET', 'POST'])
@@ -81,20 +81,24 @@ def register():
     return render_template('register.html', title='Register', form=form)
 
 @app.route('/buy')
+@login_required
 def buy():
     print("buy")
 
 @app.route('/sell')
+@login_required
 def sell():
     print("sell")
 
 @app.route('/chat', methods=['GET', 'POST'])
+@login_required
 def chat():
     print("chat")
     return render_template('chat.html')
 
 # Route for categories
 @app.route('/categories')
+@login_required
 def categories():
     categories = {
         "bed & bath": url_for('static', filename='images/bed-bath.png'),
@@ -108,6 +112,7 @@ def categories():
 
 # Route for category-specific listings
 @app.route('/<category>/listings')
+@login_required
 def listings(category):
     # categories: bed + bath, decorations, laundry + cleaning, organization + storage, appliances, study supplies
     filtered_listings = [listing for listing in mock_listings if listing['category'].replace(" ", "").lower() == category.replace(" ", "").lower()]

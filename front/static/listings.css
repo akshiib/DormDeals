@@ -5,6 +5,14 @@ h1 {
   padding: 20px;
 }
 
+h2 {
+  padding-bottom: 5px;
+}
+
+h4 {
+  padding-top: 15px;
+}
+
 .listing-container {
   display: flex;
   flex-wrap: wrap;
@@ -21,23 +29,31 @@ h1 {
   align-items: center;
   flex-direction: column;
   width: 400px;
+  padding-bottom: 10px;
 }
 
 .card {
   width: 400px;
-  transition: transform 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-  padding: 10px;
+  transition: transform 0.15s ease-in-out, box-shadow 0.15s ease-in-out,
+    opacity 0.15s ease-in-out;
+  padding: 20px;
+  border-radius: 10px;
 }
 
 .card-img-top {
-  background-color: #bbbbbc;
+  background-color: #397367;
   padding: 10px;
+  border-radius: 20px;
 }
 
 .msg-btn {
-  width: 379px;
+  width: 360px;
   transition: background-color 0.15s ease-in-out, color 0.15s ease-in-out,
     transform 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.card-text {
+  margin-bottom: 5px;
 }
 
 .msg-btn:hover {
@@ -45,7 +61,28 @@ h1 {
   color: white;
 }
 
-/* 
-.card:hover {
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-} */
+.card:hover .card-img-top,
+.card:hover .card-body {
+  opacity: 0.05;
+}
+
+.card:hover .overlay-info {
+  opacity: 1;
+  border-radius: 20px;
+}
+
+.overlay-info {
+  flex-direction: column;
+  position: absolute;
+  width: 360px;
+  height: auto;
+  color: rgb(0, 0, 0);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.15s ease-in-out;
+  padding: 20px;
+  box-sizing: border-box;
+  z-index: 1;
+}

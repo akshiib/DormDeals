@@ -1,4 +1,5 @@
 import os
+import json
 from dotenv import load_dotenv
 from pymongo import MongoClient
 import base64
@@ -63,6 +64,9 @@ to be stored in MONGODB
 """
 @app.route('/', methods=['GET', 'POST'])
 def upload_file():
+    with open('colleges.json', 'r') as file:
+        colleges = json.load(file)
+
     # When upload button is clicked (form is submitted)
     if request.method == 'POST':
         file = request.files['file']
@@ -92,7 +96,8 @@ def upload_file():
             insert_to_db(file_path, metadata, user_data)
             return 'File successfully uploaded'
 
-    return render_template('upload.html')
+        
+    return render_template('upload.html', colleges=colleges)
 
 
 """
@@ -122,3 +127,6 @@ if __name__ == "__main__":
     # If upload folder doesn't exist, create it in the same dir
     os.makedirs(UPLOAD_FOLDER, exist_ok=True)
     app.run(debug=True)
+
+
+

@@ -47,6 +47,16 @@
                 <option value="bed & bath">Bed & Bath</option>
             </select>
         </div>
+        <!-- Colleges -->
+        <div>
+            <label for="college">Select or enter a college:</label>
+            <input list="colleges" id="college" name="college">
+            <datalist id="colleges">
+                {% for college in colleges %}
+                    <option value="{{ college }}">
+                {% endfor %}
+            </datalist>
+        </div>
         <!-- Price -->
         <div>
             <label for="price">Money in Dollars:</label>
@@ -77,13 +87,12 @@
             <button type="submit">Upload</button>
         </div>
     </form>
-
+    
     <!-- Form for Download Button -->
     <form method="get" action="/download">
         <div>
             <button type="submit">Download</button>
         </div>
     </form>
-
 </body>
 </html>

@@ -24,6 +24,11 @@
             <label for="email">Email:</label>
             <input type="email" id="email" name="email" required>
         </div>
+        <!-- Item being sold -->
+        <div>
+            <label for="item">Item Name:</label>
+            <input type="text" id="item" name="item" required>
+        </div>
         <!-- Condition -->
         <div>
             <label for="condition">Condition:</label>
@@ -53,7 +58,7 @@
             <input list="colleges" id="college" name="college">
             <datalist id="colleges">
                 {% for college in colleges %}
-                    <option value="{{ college }}">
+                    <option value="{{ college }}">{{ college }}</option>
                 {% endfor %}
             </datalist>
         </div>

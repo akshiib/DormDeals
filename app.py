@@ -24,6 +24,35 @@ ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
+"""
+Function returns a dictionary. A cursor is a pymongo object which can be 
+iterated over to retrieve entries from the database. The key in the dict is the college, and the value is 
+the cursor associated with it.
+"""
+def retrieve_college_cursors():
+
+    # Find all distinct colleges
+    distinct_colleges = collection.distinct('college')
+
+    college_cursors = {}
+
+    # Store the college name as the key, and associated cursor as value
+    for college in distinct_colleges:
+        cursor = collection.find({'college': college})
+        college_cursors[college] = cursor
+    
+    # Code to show how to access item info from the cursor
+    """
+    for key in college_cursors:
+        print(key)      # Name of college
+        cursor = (college_cursors[key])
+        for document in cursor:        # document is an entry in the database
+            seller = document.get('name')      # Printing seller info, but all fields can be accessed similarly
+            print(seller)
+        print("")       # Just so that it's easy to distinguish for each college
+    """
+    return college_cursors
+
 
 # Function checks if the image has extensions in ALLOWED EXTENSIONS -> png, jpg, jpeg
 def allowed_file(filename):
@@ -47,11 +76,13 @@ def insert_to_db(image_path, metadata, user_data):
         document = {
             'name':full_name,
             'email':user_data['email'],
+            'item':user_data['item'],
             'condition':user_data['condition'],
             'category':user_data['category'],
             'price':user_data['price'],
+            'college':user_data['college'],
             'image': encoded_image,
-            'metadata': metadata
+            'metadata': metadata,
         }
 
         collection.insert_one(document)
@@ -90,7 +121,9 @@ def upload_file():
                 'email':request.form['email'],
                 'condition':request.form['condition'],
                 'category':request.form['category'],
-                'price':request.form['price']
+                'price':request.form['price'],
+                'college':request.form['college'],
+                'item':request.form['item'],
             }
 
             insert_to_db(file_path, metadata, user_data)
@@ -127,6 +160,7 @@ if __name__ == "__main__":
     # If upload folder doesn't exist, create it in the same dir
     os.makedirs(UPLOAD_FOLDER, exist_ok=True)
     app.run(debug=True)
+    # retrieve_college_cursors()
 
 
 

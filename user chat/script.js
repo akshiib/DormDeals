@@ -4,6 +4,7 @@ const messageForm = document.getElementById('send-container')
 const messageInput = document.getElementById('message-input')
 
 const name = prompt('What is your name?')
+const receiver = prompt('Who do you want to chat with?')
 appendMessage('You joined')
 socket.emit('new-user', name)
 
@@ -23,7 +24,7 @@ messageForm.addEventListener('submit', e => {
   e.preventDefault()
   const message = messageInput.value
   appendMessage(`You: ${message}`)
-  socket.emit('send-chat-message', message)
+  socket.emit('send-chat-message', { receiver, message })
   messageInput.value = ''
 })
 

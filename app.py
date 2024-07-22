@@ -11,11 +11,14 @@ load_dotenv()
 # Load keys and db name
 MONGODB_URI = os.getenv('MONGODB_URI')
 MONGODB_DB = os.getenv('MONGODB_DB')
-
+CHAT_DB = os.getenv('DB_NAME')
 # Set up connection with MongoDB
 client = MongoClient(MONGODB_URI)
 db = client[MONGODB_DB]
 collection = db['items']   
+db2 = client[CHAT_DB]
+chat_collection = db['messages']
+
 
 # Constants for the upload folder and allowed upload extensions
 UPLOAD_FOLDER = 'uploads'
@@ -23,6 +26,17 @@ ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+"""
+Function returns a list containing chats for specified user in parameter. For example, if user is speaking to 3 people,
+list of length 3 will be returned. Each element of the list will be a dict storing 2 keys. 
+Key 1: participants array (length 2 - who the chat is between)
+Key 2: messages (sorted list of messages with sender, message, timestamp)
+"""
+def find_chats_with_user(username):
+    query = { "participants": username }        # return chats where participants array contains the param user
+    chats = list(collection.find(query))
+    return chats
 
 """
 Function returns a dictionary. A cursor is a pymongo object which can be 
@@ -40,17 +54,7 @@ def retrieve_college_cursors():
     for college in distinct_colleges:
         cursor = collection.find({'college': college})
         college_cursors[college] = cursor
-    
-    # Code to show how to access item info from the cursor
-    """
-    for key in college_cursors:
-        print(key)      # Name of college
-        cursor = (college_cursors[key])
-        for document in cursor:        # document is an entry in the database
-            seller = document.get('name')      # Printing seller info, but all fields can be accessed similarly
-            print(seller)
-        print("")       # Just so that it's easy to distinguish for each college
-    """
+        
     return college_cursors
 
 
@@ -74,9 +78,9 @@ def insert_to_db(image_path, metadata, user_data):
         last_name = user_data['last_name']
         full_name = (first_name.replace(" ", "")) + " " + (last_name.replace(" ",""))
         document = {
-            'name':full_name,
+            'name':full_name,   # Person Name
             'email':user_data['email'],
-            'item':user_data['item'],
+            'item':user_data['item'],   # Item Name
             'condition':user_data['condition'],
             'category':user_data['category'],
             'price':user_data['price'],

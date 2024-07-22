@@ -26,6 +26,12 @@ with app.app_context():
 def load_user(user_id):
     return User.query.get(int(user_id))
 
+def capitalize_words(element):
+    words = element.replace('&', '& ').split()
+    return ' '.join(word.capitalize() for word in words)
+
+app.jinja_env.filters['capitalize_words'] = capitalize_words
+
 
 # Route for home
 @app.route('/')

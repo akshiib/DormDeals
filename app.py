@@ -35,7 +35,7 @@ Key 2: messages (sorted list of messages with sender, message, timestamp)
 """
 def find_chats_with_user(username):
     query = { "participants": username }        # return chats where participants array contains the param user
-    chats = list(collection.find(query))
+    chats = list(chat_collection.find(query))
     return chats
 
 """
@@ -54,7 +54,7 @@ def retrieve_college_cursors():
     for college in distinct_colleges:
         cursor = collection.find({'college': college})
         college_cursors[college] = cursor
-        
+
     return college_cursors
 
 

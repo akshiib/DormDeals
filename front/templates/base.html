@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TBD</title>
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <!-- Common CSS -->
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='base.css') }}"
+    />
+
+    <!-- Block for additional head content from other templates -->
+    {% block head %}{% endblock %}
+  </head>
+
+  <body>
+    <!-- Header section with navigation bar -->
+    <header>
+      <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+          <a class="navbar-brand" href="{{ url_for('home') }}">
+            <img
+              src="{{ url_for('static', filename='images/logo.png') }}"
+              alt="TBD Logo"
+              class="d-inline-block align-text-top"
+              style="height: 40px"
+            />
+            TBD
+          </a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+              {% if current_user.is_authenticated %}
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('buy') }}">Buy</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('sell') }}">Sell</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('chat') }}">Chat</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link">Welcome, {{current_user.username}}!</a>
+              </li>
+              {% else %}
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('login') }}">Login</a>
+              </li>
+              {% endif %}
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Main content area where dynamic content is inserted -->
+    <main>{% block content %}{% endblock %}</main>
+
+    <!-- Footer section with navigation links -->
+    <footer class="text-center py-3">
+      <div class="container">
+        <ul class="list-unstyled mb-0 footer-links">
+          <li><a href="{{ url_for('home') }}">Home</a></li>
+          {% if current_user.is_authenticated %}
+          <li>
+            <a href="{{ url_for('buy') }}">Buy</a>
+          </li>
+          <li>
+            <a href="{{ url_for('sell') }}">Sell</a>
+          </li>
+          <li>
+            <a href="{{ url_for('chat') }}">Chat</a>
+          </li>
+          <li>
+            <a href="{{ url_for('logout') }}">Logout</a>
+          </li>
+          {% else %}
+          <li>
+            <a href="{{ url_for('login') }}">Login</a>
+          </li>
+          {% endif %}
+        </ul>
+      </div>
+    </footer>
+  </body>
+</html>

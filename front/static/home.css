@@ -1,0 +1,22 @@
+.carousel-container {
+  padding: 20px;
+  padding-top: 40px;
+}
+
+.item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#owl-demo .item img {
+  display: block;
+  width: 93%;
+  height: auto;
+  border-radius: 20px;
+  background: border-box;
+}
+
+.preview-container {
+  overflow: hidden;
+}

@@ -11,9 +11,7 @@
   <div class="row">
     {% for category, image_url in categories.items() %}
     <div class="col-md-4 mb-4">
-      <a
-        href="{{ url_for('listings', category=category.replace(' ', '').lower()) }}"
-      >
+      <a href="{{ url_for('listings', category=category.lower()) }}">
         <div class="card">
           <img src="{{ image_url }}" alt="{{ category }}" />
         </div>

@@ -153,7 +153,7 @@ def categories():
         "laundry & cleaning": url_for('static', filename='images/laund-clean.png'),
         "organization & storage": url_for('static', filename='images/stor-org.png'),
         "appliances": url_for('static', filename='images/appliance.png'),
-        "studysupplies": url_for('static', filename='images/studysup.png')
+        "study supplies": url_for('static', filename='images/studysup.png')
     }
     return render_template('categories.html', categories=categories)
 
@@ -161,7 +161,53 @@ def categories():
 @app.route('/<category>/listings')
 @login_required
 def listings(category):
-    
+    mock_listings = [
+        {
+            "name": "pillow",
+            "image": url_for('static', filename='images/bed-bath.png'),
+            "price": "$10",
+            "condition": "middle",
+            "category": "bed & bath"
+        },
+        {
+            "name": "poster",
+            "image": url_for('static', filename='images/bed-bath.png'),
+            "price": "$5",
+            "condition": "high",
+            "category": "decorations"
+        },
+        {
+            "name": "Detergent",
+            "image": url_for('static', filename='images/bed-bath.png'),
+            "price": "$20",
+            "condition": "low",
+            "description": "red blanket",
+            "email": "email@wmial.com",
+            "category": "laundry & cleaning"
+        },
+        {
+            "name": "dresser",
+            "image": url_for('static', filename='images/bed-bath.png'),
+            "price": "$50",
+            "condition": "middle",
+            "category": "organization & storage",
+        },
+        {
+            "name": "kettle",
+            "image": url_for('static', filename='images/bed-bath.png'),
+            "price": "$15",
+            "condition": "high",
+            "category": "appliances"
+        },
+        {
+            "name": "desk lamp",
+            "image": url_for('static', filename='images/bed-bath.png'),
+            "price": "$5",
+            "wear": "high",
+            "condition": "medium",
+            "category": "study supplies",
+        }
+    ]
     # categories: bed + bath, decorations, laundry + cleaning, organization + storage, appliances, study supplies
     filtered_listings = [listing for listing in mock_listings if listing['category'].replace(" ", "").lower() == category.replace(" ", "").lower()]
     return render_template('listings.html', category=category, listings=filtered_listings)

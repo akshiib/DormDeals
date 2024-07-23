@@ -8,7 +8,10 @@
 
 <div class="listing-container">
   <h1>
-    <strong> Listings in {{ category | capitalize_words }}</strong>
+    <strong>
+      <!-- {{ category.replace('&', ' & ').capitalize() }}  -->
+      Listings</strong
+    >
   </h1>
   <div class="row">
     {% for listing in listings %}

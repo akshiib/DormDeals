@@ -1,103 +1,180 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <title>Upload Image</title>
-</head>
-<body>
-    <h1>Upload Image</h1>
+#sell.html
+{% extends "base.html" %} {% block content %}
 
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{{ url_for('static', filename='sell.css') }}"
+/>
+
+<div class="sell-container">
+  <form method="POST" enctype="multipart/form-data" action="">
+    {{ form.hidden_tag() }}
     <!-- Upload Form -->
-    <form method="post" enctype="multipart/form-data" action="/">
-        <!--First Name -->
-        <div>
-            <label for="first">First Name:</label>
-            <input type="text" id="first" name="first" required>
+    <fieldset class="form-group">
+      <legend class="border-bottom mb-4">Post New Listing</legend>
+
+      <!-- First Name -->
+      <div class="form-group">
+        {{ form.first_name.label(class="form-control-label") }} {{
+        form.first_name(class="form-control form-control-lg is-invalid" if
+        form.first_name.errors else "form-control form-control-lg") }} {% for
+        error in form.first_name.errors %}
+        <div class="invalid-feedback">
+          <span>{{ error }}</span>
         </div>
-        <!-- Last Name -->
-        <div>
-            <label for="last">Last Name:</label>
-            <input type="text" id="last" name="last" required>
+        {% endfor %}
+      </div>
+
+      <!-- Last Name -->
+      <div class="form-group">
+        {{ form.last_name.label(class="form-control-label") }} {{
+        form.last_name(class="form-control form-control-lg is-invalid" if
+        form.last_name.errors else "form-control form-control-lg") }} {% for
+        error in form.last_name.errors %}
+        <div class="invalid-feedback">
+          <span>{{ error }}</span>
         </div>
-        <!-- Email -->
-        <div>
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
+        {% endfor %}
+      </div>
+
+      <!-- Email -->
+      <div class="form-group">
+        {{ form.email.label(class="form-control-label") }} {{
+        form.email(class="form-control form-control-lg is-invalid" if
+        form.email.errors else "form-control form-control-lg") }} {% for error
+        in form.email.errors %}
+        <div class="invalid-feedback">
+          <span>{{ error }}</span>
         </div>
-        <!-- Item being sold -->
-        <div>
-            <label for="item">Item Name:</label>
-            <input type="text" id="item" name="item" required>
+        {% endfor %}
+      </div>
+
+      <!-- Item being sold -->
+      <div class="form-group">
+        {{ form.item_name.label(class="form-control-label") }} {{
+        form.item_name(class="form-control form-control-lg is-invalid" if
+        form.item_name.errors else "form-control form-control-lg") }} {% for
+        error in form.item_name.errors %}
+        <div class="invalid-feedback">
+          <span>{{ error }}</span>
         </div>
-        <!-- Condition -->
-        <div>
-            <label for="condition">Condition:</label>
-            <select id="condition" name="condition" required>
-                <option value="">Select Condition</option>
-                <option value="worn">Worn</option>
-                <option value="used, but still in good shape">Used, but still in good shape</option>
-                <option value="unused">Unused</option>
-            </select>
+        {% endfor %}
+      </div>
+
+      <!-- Condition -->
+      <div class="form-group">
+        {{ form.condition.label(class="form-control-label") }} {{
+        form.condition(class="form-control form-control-lg is-invalid" if
+        form.condition.errors else "form-control form-control-lg") }} {% for
+        error in form.condition.errors %}
+        <div class="invalid-feedback">
+          <span>{{ error }}</span>
         </div>
-        <!-- Category -->
-        <div>
-            <label for="Category">Category:</label>
-            <select id="category" name="category" required>
-                <option value="">Select Category</option>
-                <option value="appliances">Appliances</option>
-                <option value="study supplies">Study Supplies</option>
-                <option value="organization & storage">Organization & Storage</option>
-                <option value="laundry & cleaning">Laundry & Cleaning</option>
-                <option value="decoration">Decoration</option>
-                <option value="bed & bath">Bed & Bath</option>
-            </select>
+        {% endfor %}
+      </div>
+
+      <!-- Category -->
+      <div class="form-group">
+        {{ form.category.label(class="form-control-label") }} {{
+        form.category(class="form-control form-control-lg is-invalid" if
+        form.category.errors else "form-control form-control-lg") }} {% for
+        error in form.category.errors %}
+        <div class="invalid-feedback">
+          <span>{{ error }}</span>
         </div>
-        <!-- Colleges -->
-        <div>
-            <label for="college">Select or enter a college:</label>
-            <input list="colleges" id="college" name="college">
-            <datalist id="colleges">
-                {% for college in colleges %}
-                    <option value="{{ college }}">{{ college }}</option>
-                {% endfor %}
-            </datalist>
+        {% endfor %}
+      </div>
+
+      <!-- Colleges -->
+      <div class="form-group">
+        {{ form.college.label(class="form-control-label") }} {{
+        form.college(class="form-control form-control-lg is-invalid" if
+        form.college.errors else "form-control form-control-lg") }} {% for error
+        in form.college.errors %}
+        <div class="invalid-feedback">
+          <span>{{ error }}</span>
         </div>
-        <!-- Price -->
-        <div>
-            <label for="price">Money in Dollars:</label>
-            <input type="number" id="price" name="price" min="0" step="1" placeholder="Enter amount" required>
+        {% endfor %}
+      </div>
+
+      <!-- Price -->
+      <div class="form-group">
+        {{ form.price.label(class="form-control-label") }} {{
+        form.price(class="form-control form-control-lg is-invalid" if
+        form.price.errors else "form-control form-control-lg") }} {% for error
+        in form.price.errors %}
+        <div class="invalid-feedback">
+          <span>{{ error }}</span>
         </div>
-        <!-- Image File -->
-        <div>
-            <label for="file">Select image:</label>
-            <input type="file" id="file" name="file" accept="image/*" required>
+        {% endfor %}
+      </div>
+
+      <!-- Image File -->
+      <div class="form-group">
+        {{ form.file.label(class="form-control-label") }} {{
+        form.file(class="form-control form-control-lg is-invalid" if
+        form.file.errors else "form-control form-control-lg") }} {% for error in
+        form.file.errors %}
+        <div class="invalid-feedback">
+          <span>{{ error }}</span>
         </div>
-        <!-- Description -->
-        <div>
-            <label for="description">Description:</label>
-            <input type="text" id="description" name="description" required>
+        {% endfor %}
+      </div>
+
+      <!-- Description -->
+      <div class="form-group">
+        {{ form.description.label(class="form-control-label") }} {{
+        form.description(class="form-control form-control-lg is-invalid" if
+        form.description.errors else "form-control form-control-lg") }} {% for
+        error in form.description.errors %}
+        <div class="invalid-feedback">
+          <span>{{ error }}</span>
         </div>
-        <!-- Tags -->
-        <div>
-            <label for="tags">Tags (comma separated):</label>
-            <input type="text" id="tags" name="tags" required>
+        {% endfor %}
+      </div>
+
+      <!-- Tags -->
+      <div class="form-group">
+        {{ form.tags.label(class="form-control-label") }} {{
+        form.tags(class="form-control form-control-lg is-invalid" if
+        form.tags.errors else "form-control form-control-lg") }} {% for error in
+        form.tags.errors %}
+        <div class="invalid-feedback">
+          <span>{{ error }}</span>
         </div>
-        <!-- Date -->
-        <div>
-            <label for="upload_date">Upload Date:</label>
-            <input type="date" id="upload_date" name="upload_date" required>
+        {% endfor %}
+      </div>
+
+      <!-- Upload Date -->
+      <div class="form-group">
+        {{ form.upload_date.label(class="form-control-label") }} {{
+        form.upload_date(class="form-control form-control-lg is-invalid" if
+        form.upload_date.errors else "form-control form-control-lg") }} {% for
+        error in form.upload_date.errors %}
+        <div class="invalid-feedback">
+          <span>{{ error }}</span>
         </div>
-        <!-- Submit Button -->
-        <div>
-            <button type="submit">Upload</button>
-        </div>
-    </form>
-    
-    <!-- Form for Download Button -->
+        {% endfor %}
+      </div>
+    </fieldset>
+  </form>
+
+  <div class="btn-container">
+    <!-- Submit Button -->
+    <div class="form-group text-center">
+      <button type="submit" class="btn btn-outline-info">Upload</button>
+    </div>
+
+    <!-- Optional Form for Download Button -->
     <form method="get" action="/download">
-        <div>
-            <button type="submit">Download</button>
-        </div>
+      <div class="form-group text-center">
+        <button type="submit" class="btn btn-outline-secondary">
+          Download
+        </button>
+      </div>
     </form>
-</body>
-</html>
+  </div>
+</div>
+
+{% endblock %}

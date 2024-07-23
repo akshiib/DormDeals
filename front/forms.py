@@ -1,6 +1,6 @@
 from flask import url_for
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, DecimalField, IntegerField, FileField, SelectField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, DecimalField, IntegerField, FileField, SelectField, DateField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError, NumberRange
 from models import User
 
@@ -29,19 +29,18 @@ class LoginForm(FlaskForm):
     remember = BooleanField('Remember Me')
     submit = SubmitField('Login')
 
-class SellerForm(FlaskForm):
-    item_name = StringField('Item Name', validators=[DataRequired(), Length(max=100)])
-    price = DecimalField('Price ($)', validators=[DataRequired(), NumberRange(min=0)], places=2)
-    years_used = IntegerField('Number of Years Used', validators=[DataRequired(), NumberRange(min=0, max=10)])
-    image = FileField('Image', validators=[DataRequired()])
-    category = SelectField('Category', choices=[
-        ('decor', 'Decor'), 
-        ('laundry_cleaning', 'Laundry/Cleaning Essentials'), 
-        ('organization_storage', 'Organization/Storage'), 
-        ('appliances', 'Appliances'), 
-        ('study_supplies', 'Study Supplies'), 
-        ('bed_bath', 'Bed and Bath')
-    ], validators=[DataRequired()])
-    submit = SubmitField('Sell Item')
+class SellForm(FlaskForm):
+    first_name = StringField('First Name', validators=[DataRequired()])
+    last_name = StringField('Last Name', validators=[DataRequired()])
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    item_name = StringField('Item Name', validators=[DataRequired()])
+    condition = SelectField('Condition', choices=[('worn', 'Worn'), ('used', 'Used, but good'), ('unused', 'Unused')], validators=[DataRequired()])
+    category = SelectField('Category', choices=[('appliances', 'Appliances'), ('study supplies', 'Study Supplies'), ('organization & storage', 'Organization & Storage'), ('laundry & cleaning', 'Laundry & Cleaning'), ('decoration', 'Decoration'), ('bed & bath', 'Bed & Bath')], validators=[DataRequired()])
+    college = StringField('College', validators=[DataRequired()])
+    price = IntegerField('Price', validators=[DataRequired()])
+    file = FileField('Image', validators=[DataRequired()])
+    description = StringField('Description', validators=[DataRequired()])
+    tags = StringField('Tags', validators=[DataRequired()])
+    upload_date = DateField('Upload Date', format='%Y-%m-%d', validators=[DataRequired()])
 
     

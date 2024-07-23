@@ -25,7 +25,7 @@ const client = new MongoClient(mongoUri);
 const db = client.db(dbName);
 const messagesCollection = db.collection('messages');
 const chatSchema = {
-  participants: [String], // Who the chat is between
+  participants: [String], // Who the chat is between 
   messages: [
     {
       sender: String, // User ID or username of the sender

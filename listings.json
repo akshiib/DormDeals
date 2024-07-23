@@ -1,0 +1,87 @@
+[
+    {
+        "name": "Keisha",
+        "email": "keisha@gmail.com",
+        "item": "pillow",
+        "image": "/static/images/bed-bath.png",
+        "price": "$10",
+        "condition": "middle",
+        "category": "bed & bath",
+        "metadata": {
+            "description": "A comfortable pillow for your bed.",
+            "tags": ["bedding", "comfortable"],
+            "upload_date": "2024-07-21"
+        }
+    },
+    {
+        "name": "Jillian",
+        "email": "jill@gmail.com",
+        "item": "poster",
+        "image": "/static/images/bed-bath.png",
+        "price": "$5",
+        "condition": "high",
+        "category": "decorations",
+        "metadata": {
+            "description": "A beautiful poster to decorate your room.",
+            "tags": ["art", "decor"],
+            "upload_date": "2024-07-22"
+        }
+    },
+    {
+        "name": "Sarah",
+        "email": "sar@gmail.com",
+        "item": "detergent",
+        "image": "/static/images/bed-bath.png",
+        "price": "$20",
+        "condition": "low",
+        "category": "laundry & cleaning",
+        "metadata": {
+            "description": "Red detergent for your laundry needs.",
+            "tags": ["cleaning", "laundry"],
+            "upload_date": "2024-07-23"
+        }
+    },
+    {
+        "name": "Rihanna",
+        "email": "hanna@gmail.com",
+        "item": "dresser",
+        "image": "/static/images/bed-bath.png",
+        "price": "$50",
+        "condition": "middle",
+        "category": "organization & storage",
+        "metadata": {
+            "description": "Plastic dresser for your storage needs.",
+            "tags": ["organization", "storage"],
+            "upload_date": "2024-07-25"
+        }
+    },
+    {
+        "name": "Kevin",
+        "email": "kev@gmail.com",
+        "item": "kettle",
+        "image": "/static/images/bed-bath.png",
+        "price": "$15",
+        "condition": "high",
+        "category": "appliances",
+        "metadata": {
+            "description": "Kettle for your tea needs.",
+            "tags": ["tea", "stove"],
+            "upload_date": "2024-07-27"
+        }
+    },
+    {
+        "name": "John",
+        "email": "jo@gmail.com",
+        "item": "desk lamp",
+        "image": "/static/images/bed-bath.png",
+        "price": "$5",
+        "wear": "high",
+        "condition": "medium",
+        "category": "study supplies",
+        "metadata": {
+            "description": "Lamp for your study needs.",
+            "tags": ["study", "lamp"],
+            "upload_date": "2024-07-20"
+        }
+    }
+]

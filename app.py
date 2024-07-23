@@ -1,4 +1,5 @@
 import os
+import sys
 import json
 from dotenv import load_dotenv
 from pymongo import MongoClient
@@ -6,18 +7,28 @@ import base64
 from flask import Flask, request, render_template
 from werkzeug.utils import secure_filename
 
+from front.db import db
+from front.models import User
+from front.forms import RegistrationForm, LoginForm
+
+from collections import defaultdict
+from flask import Flask, render_template, flash, redirect, url_for, request, jsonify
+from flask_login import LoginManager, current_user, login_user, logout_user, login_required
+
+
 load_dotenv()
 
 # Load keys and db name
 MONGODB_URI = os.getenv('MONGODB_URI')
 MONGODB_DB = os.getenv('MONGODB_DB')
 CHAT_DB = os.getenv('DB_NAME')
+
 # Set up connection with MongoDB
 client = MongoClient(MONGODB_URI)
-db = client[MONGODB_DB]
-collection = db['items']   
-db2 = client[CHAT_DB]
-chat_collection = db['messages']
+mongo_db_1 = client[MONGODB_DB]
+collection = mongo_db_1['items']   
+mongo_db_2 = client[CHAT_DB]
+chat_collection = mongo_db_2['messages']
 
 
 # Constants for the upload folder and allowed upload extensions
@@ -26,6 +37,131 @@ ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['SECRET_KEY'] = os.urandom(24)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
+
+db.init_app(app)
+login_manager = LoginManager(app)
+login_manager.login_view = 'login'
+
+# Create tables if they don't exist
+with app.app_context():
+    db.create_all()
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
+
+# Route for home
+@app.route('/')
+def home():
+    mock_listings = [
+        {
+            "name": "pillow",
+            "image": url_for('static', filename='images/bed-bath.png'),
+            "price": "$10",
+            "condition": "middle",
+            "category": "bed & bath"
+        },
+        {
+            "name": "poster",
+            "image": url_for('static', filename='images/bed-bath.png'),
+            "price": "$5",
+            "condition": "high",
+            "category": "decorations"
+        },
+        {
+            "name": "Detergent",
+            "image": url_for('static', filename='images/bed-bath.png'),
+            "price": "$20",
+            "condition": "low",
+            "description": "red blanket",
+            "email": "email@wmial.com",
+            "category": "laundry & cleaning"
+        },
+        {
+            "name": "dresser",
+            "image": url_for('static', filename='images/bed-bath.png'),
+            "price": "$50",
+            "condition": "middle",
+            "category": "organization & storage",
+        },
+        {
+            "name": "kettle",
+            "image": url_for('static', filename='images/bed-bath.png'),
+            "price": "$15",
+            "condition": "high",
+            "category": "appliances"
+        },
+        {
+            "name": "desk lamp",
+            "image": url_for('static', filename='images/bed-bath.png'),
+            "price": "$5",
+            "wear": "high",
+            "condition": "medium",
+            "category": "study supplies",
+        }
+    ]
+    return render_template('home.html', listings=mock_listings)
+
+
+# Route for login
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if current_user.is_authenticated:
+        return redirect(url_for('categories'))
+    
+    """
+    Check if the curr user is in the chat db after clicking on chat w seller
+    If user is checking on a seller listing, check if seller is in db
+    if not, create a chat
+    if they are, retrieve old data
+    """
+    # Sets up form and functionality
+    form = LoginForm()
+    username_error = None
+    password_error = None
+
+    if form.validate_on_submit():
+        user = User.query.filter_by(username=form.username.data).first()
+        if user and user.check_password(form.password.data):
+            login_user(user, remember=form.remember.data)
+            next_page = request.args.get('next')
+            return redirect(next_page or url_for('categories'))
+        
+        # Input validation to inform user of input invalid
+        else:
+            if not user:
+                username_error = 'Invalid username'
+            else:
+                password_error = 'Invalid password'
+
+    return render_template('login.html', title='Login', form=form, 
+                           username_error=username_error,
+                           password_error=password_error)
+
+# Route for register
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    # Loading the list of 6k colleges in colleges.json
+    with open('colleges.json', 'r') as file:
+        colleges = json.load(file)
+
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        existing_user = User.query.filter_by(email=form.email.data).first()
+        if existing_user:
+            flash('This email address is already registered. ' +
+                  'Please <a href="{}">login</a> instead.'.format(url_for('login')), 'danger')
+            return redirect(url_for('login')) 
+        new_user = User(username=form.username.data, email=form.email.data)
+        new_user.set_password(form.password.data)
+        db.session.add(new_user)
+        db.session.commit()  
+        flash('Account created successfully! You can now log in.', 'success')
+        return redirect(url_for('login'))
+    return render_template('register.html', title='Register', form=form, colleges=colleges)
 
 """
 Function returns a list containing chats for specified user in parameter. For example, if user is speaking to 3 people,
@@ -33,8 +169,10 @@ list of length 3 will be returned. Each element of the list will be a dict stori
 Key 1: participants array (length 2 - who the chat is between)
 Key 2: messages (sorted list of messages with sender, message, timestamp)
 """
-def find_chats_with_user(username):
-    query = { "participants": username }        # return chats where participants array contains the param user
+def find_chats_with_user(username, seller):
+    participants = [username, seller]
+    participants.sort()
+    query = { "participants": participants }        # return chats where participants array contains the param user
     chats = list(chat_collection.find(query))
     return chats
 
@@ -44,10 +182,8 @@ iterated over to retrieve entries from the database. The key in the dict is the 
 the cursor associated with it.
 """
 def retrieve_college_cursors():
-
     # Find all distinct colleges
     distinct_colleges = collection.distinct('college')
-
     college_cursors = {}
 
     # Store the college name as the key, and associated cursor as value
@@ -92,13 +228,39 @@ def insert_to_db(image_path, metadata, user_data):
         collection.insert_one(document)
         print(f"Uploaded {image_path} to MongoDB with metadata.")
 
+@app.route('/buy')
+@login_required
+def buy():
+    print("buy")
+
+
+@app.route('/chat', methods=['GET', 'POST'])
+@login_required
+def chat():
+    return render_template('chat.html')
+
+# Route for categories
+@app.route('/categories')
+@login_required
+def categories():
+    categories = {
+        "bed & bath": url_for('static', filename='images/bed-bath.png'),
+        "decorations": url_for('static', filename='images/decor.png'),
+        "laundry & cleaning": url_for('static', filename='images/laund-clean.png'),
+        "organization & storage": url_for('static', filename='images/stor-org.png'),
+        "appliances": url_for('static', filename='images/appliance.png'),
+        "study supplies": url_for('static', filename='images/studysup.png')
+    }
+    return render_template('categories.html', categories=categories)
 
 """
 Function that displays the form, saves the uploaded image in the upload folder, and send all information
 to be stored in MONGODB
 """
-@app.route('/', methods=['GET', 'POST'])
-def upload_file():
+@app.route('/sell', methods=['GET', 'POST'])
+def sell():
+
+    # Loading the list of 6k colleges in colleges.json
     with open('colleges.json', 'r') as file:
         colleges = json.load(file)
 
@@ -134,7 +296,10 @@ def upload_file():
             return 'File successfully uploaded'
 
         
-    return render_template('upload.html', colleges=colleges)
+    return render_template('sell.html', colleges=colleges)
+
+
+
 
 
 """
@@ -159,12 +324,33 @@ def download_file():
         else:
             return "Not found"
    
-   
+@app.route('/<category>/listings') 
+@login_required 
+def listings(category): 
+    json_file_path = "listings.json"
+    # Check if the JSON file exists
+    if not os.path.isfile(json_file_path): 
+        # Return an error message if the file is not found
+        return "Listings data file not found", 404
+    # Read data from JSON file
+    with open(json_file_path, "r") as file: 
+          listings = json.load(file) # Render the template with data from JSONreturn render_template(‘home.html’, listings=listings)
+    filtered_listings = [listing for listing in listings if listing['category'] == category] 
+    return render_template('listings.html', category=category, listings=filtered_listings)
+
+
+# Route for logout
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('home'))
+
+
 if __name__ == "__main__":
     # If upload folder doesn't exist, create it in the same dir
     os.makedirs(UPLOAD_FOLDER, exist_ok=True)
     app.run(debug=True)
-    # retrieve_college_cursors()
 
 
 

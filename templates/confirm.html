@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submission Confirmation</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .confirmation-container {
+            text-align: center;
+            padding: 30px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin: auto;
+        }
+        .confirmation-container h1 {
+            font-size: 24px;
+            color: #343a40;
+            margin-bottom: 20px;
+        }
+        .confirmation-container p {
+            font-size: 16px;
+            margin-bottom: 20px;
+            color: #6c757d;
+        }
+        .confirmation-container a {
+            display: inline-block;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        .confirmation-container a:hover {
+            background-color: #0056b3;
+        }
+        .content-wrapper {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="content-wrapper">
+        <div class="confirmation-container">
+            <h1>Item Submitted Successfully!</h1>
+            <p>Your item has been submitted. Thank you!</p>
+            <a href="{{ url_for('home') }}">Return Home</a>
+        </div>
+    </div>
+</body>
+</html>
+{% endblock %}

@@ -9,7 +9,7 @@ from werkzeug.utils import secure_filename
 
 from front.db import db
 from front.models import User
-from front.forms import RegistrationForm, LoginForm
+from front.forms import RegistrationForm, LoginForm, SellForm
 
 from collections import defaultdict
 from flask import Flask, render_template, flash, redirect, url_for, request, jsonify
@@ -293,13 +293,10 @@ def sell():
             }
 
             insert_to_db(file_path, metadata, user_data)
-            return 'File successfully uploaded'
+            return render_template('confirm.html')
 
         
     return render_template('sell.html', colleges=colleges)
-
-
-
 
 
 """

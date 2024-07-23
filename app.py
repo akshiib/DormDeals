@@ -181,7 +181,7 @@ Function returns a dictionary. A cursor is a pymongo object which can be
 iterated over to retrieve entries from the database. The key in the dict is the college, and the value is 
 the cursor associated with it.
 """
-def retrieve_college_cursors():
+def retrieve_college_cursors():    
     # Find all distinct colleges
     distinct_colleges = collection.distinct('college')
     college_cursors = {}
@@ -192,6 +192,18 @@ def retrieve_college_cursors():
         college_cursors[college] = cursor
 
     return college_cursors
+
+def retrieve_user_college():
+    user_college = "University Of Maryland-College Park"#current_user.college
+    cursor = collection.find({"college":user_college})
+    # entries = list(cursor)
+    entries = []
+    for entry in cursor:
+        entry["_id"] = str(entry["_id"])  # Convert ObjectId to string
+        entries.append(entry)
+    
+    with open("listings.json", "w") as file:
+        json.dump(entries, file, indent=4)
 
 
 # Function checks if the image has extensions in ALLOWED EXTENSIONS -> png, jpg, jpeg
@@ -244,12 +256,12 @@ def chat():
 @login_required
 def categories():
     categories = {
-        "bed & bath": url_for('static', filename='images/bed-bath.png'),
+        "bed&bath": url_for('static', filename='images/bed-bath.png'),
         "decorations": url_for('static', filename='images/decor.png'),
-        "laundry & cleaning": url_for('static', filename='images/laund-clean.png'),
-        "organization & storage": url_for('static', filename='images/stor-org.png'),
+        "laundry&cleaning": url_for('static', filename='images/laund-clean.png'),
+        "organization&storage": url_for('static', filename='images/stor-org.png'),
         "appliances": url_for('static', filename='images/appliance.png'),
-        "study supplies": url_for('static', filename='images/studysup.png')
+        "study-supplies": url_for('static', filename='images/studysup.png')
     }
     return render_template('categories.html', categories=categories)
 
@@ -325,15 +337,27 @@ def download_file():
 @login_required 
 def listings(category): 
     json_file_path = "listings.json"
-    # Check if the JSON file exists
-    if not os.path.isfile(json_file_path): 
-        # Return an error message if the file is not found
-        return "Listings data file not found", 404
-    # Read data from JSON file
     with open(json_file_path, "r") as file: 
-          listings = json.load(file) # Render the template with data from JSONreturn render_template(‘home.html’, listings=listings)
-    filtered_listings = [listing for listing in listings if listing['category'] == category] 
-    return render_template('listings.html', category=category, listings=filtered_listings)
+          listings = json.load(file) 
+    # filtered_listings = [listing for listing in listings if listing['category'] == category] 
+
+    filtered = defaultdict(list)
+    for listing in listings:
+        filtered[listing['category']].append(listing)   
+
+    categories = [
+        "bed&bath",
+        "decorations",
+        "laundry&cleaning",
+        "organization&storage",
+        "appliances",
+        "study-supplies"
+    ]
+
+    for current in categories:
+        if category == current:
+            return render_template('listings.html', category=category, listings=filtered[category])
+    
 
 
 # Route for logout
@@ -346,8 +370,10 @@ def logout():
 
 if __name__ == "__main__":
     # If upload folder doesn't exist, create it in the same dir
+    #retrieve_user_college()
     os.makedirs(UPLOAD_FOLDER, exist_ok=True)
     app.run(debug=True)
 
+    
 
 

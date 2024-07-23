@@ -169,11 +169,15 @@ list of length 3 will be returned. Each element of the list will be a dict stori
 Key 1: participants array (length 2 - who the chat is between)
 Key 2: messages (sorted list of messages with sender, message, timestamp)
 """
-def find_chats_with_user(username, seller):
-    participants = [username, seller]
+@app.route('/<seller>/chat') 
+def find_chats_with_user(seller):
+    user = current_user.username
+    participants = [user, seller]
     participants.sort()
     query = { "participants": participants }        # return chats where participants array contains the param user
     chats = list(chat_collection.find(query))
+
+    # render chat(chats=chats)
     return chats
 
 """

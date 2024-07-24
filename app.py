@@ -89,7 +89,7 @@ def retrieve_user_college():
 @app.route('/')
 def home():
     retrieve_user_college()
-    with open("listings.json", "r") as file:
+    with open("listings_mock.json", "r") as file:
         listings = json.load(file)
     mock_listings = []
     for i in range(9):

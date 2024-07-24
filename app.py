@@ -117,6 +117,7 @@ def login():
                            username_error=username_error,
                            password_error=password_error)
 
+
 # Route for register
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -139,6 +140,7 @@ def register():
         return redirect(url_for('login'))
     return render_template('register.html', title='Register', form=form, colleges=colleges)
 
+
 """
 Function returns a list containing chats for specified user in parameter. For example, if user is speaking to 3 people,
 list of length 3 will be returned. Each element of the list will be a dict storing 2 keys. 
@@ -155,23 +157,6 @@ def find_chats_with_user(seller):
 
     # render chat(chats=chats)
     return chats
-
-"""
-Function returns a dictionary. A cursor is a pymongo object which can be 
-iterated over to retrieve entries from the database. The key in the dict is the college, and the value is 
-the cursor associated with it.
-"""
-def retrieve_college_cursors():    
-    # Find all distinct colleges
-    distinct_colleges = collection.distinct('college')
-    college_cursors = {}
-
-    # Store the college name as the key, and associated cursor as value
-    for college in distinct_colleges:
-        cursor = collection.find({'college': college})
-        college_cursors[college] = cursor
-
-    return college_cursors
 
 
 # Function checks if the image has extensions in ALLOWED EXTENSIONS -> png, jpg, jpeg
@@ -208,6 +193,7 @@ def insert_to_db(image_path, metadata, user_data):
         collection.insert_one(document)
         print(f"Uploaded {image_path} to MongoDB with metadata.")
 
+
 @app.route('/buy')
 @login_required
 def buy():
@@ -217,7 +203,8 @@ def buy():
 @app.route('/chat', methods=['GET', 'POST'])
 @login_required
 def chat():
-    return render_template('chat.html')
+    return render_template('chat.html') 
+
 
 # Route for categories
 @app.route('/categories')
@@ -232,6 +219,7 @@ def categories():
         "study-supplies": url_for('static', filename='images/studysup.png')
     }
     return render_template('categories.html', categories=categories)
+
 
 """
 Function that displays the form, saves the uploaded image in the upload folder, and send all information
@@ -301,9 +289,11 @@ def download_file():
         else:
             return "Not found"
    
+
 @app.route('/<category>/listings') 
 @login_required 
 def listings(category): 
+    retrieve_user_college()
     json_file_path = "listings.json"
     with open(json_file_path, "r") as file: 
           listings = json.load(file) 
@@ -327,7 +317,6 @@ def listings(category):
             return render_template('listings.html', category=category, listings=filtered[category])
     
 
-
 # Route for logout
 @app.route('/logout')
 @login_required
@@ -338,7 +327,6 @@ def logout():
 
 if __name__ == "__main__":
     # If upload folder doesn't exist, create it in the same dir
-    #retrieve_user_college()
     os.makedirs(UPLOAD_FOLDER, exist_ok=True)
     app.run(debug=True)
 

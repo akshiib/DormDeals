@@ -64,7 +64,7 @@
             <label for="college">Select or enter a college:</label>
             <input list="colleges" id="college" name="college">
             <datalist id="colleges">
-                {% for college in colleges %}
+                {% for college in colleges %} <!-- Jinja2 Syntax -->
                     <option value="{{ college }}">{{ college }}</option>
                 {% endfor %}
             </datalist>

@@ -1,48 +1,44 @@
 {% extends "base.html" %} {% block content %}
-
 <link
   rel="stylesheet"
   type="text/css"
   href="{{ url_for('static', filename='listings.css') }}"
 />
-
 <div class="listing-container">
   <h1>
-    <strong>
-      <!-- {{ category.replace('&', ' & ').capitalize() }}  -->
-      Listings</strong
-    >
+    <strong> Listings in {{ category | capitalize_words }}</strong>
   </h1>
   <div class="row">
     {% for listing in listings %}
     <div class="col-md-4 mb-4">
       <div class="card">
         <img
-          src="data:image/jpeg;base64,{{ listing.image }}" 
+          src="data:image/jpeg;base64,{{ listing.image }}"
           class="card-img-top"
           alt="{{ listing.name }}"
         />
         <div class="card-body">
           <h5 class="card-title">{{ listing.item }}</h5>
-          <h5 class="card-text">{{ listing.price }}</h5>
+          <h5 class="card-text">${{ listing.price }}</h5>
         </div>
-        <a href="{{ url_for('chat', seller=listing.name.replace(' ', '').lower()) }}">
+        <a
+          href="{{ url_for('chat', seller=listing.name.replace(' ', '').lower()) }}"
+        >
           <button class="msg-btn">Message Seller</button>
         </a>
         <div class="overlay-info">
           <h2>{{ listing.item }}</h2>
           <h4>Item Details</h4>
-          <h6>Description: {{ listing.description }}</h6>
-          <h6>Condition: {{ listing.condition }}</h6>
-          <h6>Price: {{ listing.price }}</h6>
+          <h6>Description: <span>{{ listing.metadata.description }}</span></h6>
+          <h6>Condition: <span>{{ listing.condition }}</span></h6>
+          <h6>Price: <span>${{ listing.price }}</span></h6>
           <h4>Seller Information</h4>
-          <h6>Name: {{ listing.name }}</h6>
-          <h6>Email: {{ listing.email }}</h6>
+          <h6>Name: <span>{{ listing.name }}</span></h6>
+          <h6>Email: <span>{{ listing.email }}</span></h6>
         </div>
       </div>
     </div>
     {% endfor %}
   </div>
 </div>
-
 {% endblock %}

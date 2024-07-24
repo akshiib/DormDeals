@@ -52,6 +52,21 @@ with app.app_context():
 def load_user(user_id):
     return User.query.get(int(user_id))
 
+# Formats category-specific listing page headings
+def capitalize_words(value):
+    value = value.replace('&', ' & ').replace('-', ' ')
+    words = value.split()
+    return ' '.join(word.capitalize() for word in words)
+
+app.jinja_env.filters['capitalize_words'] = capitalize_words
+
+# Formats category labels
+def format_category(value):
+    value = value.replace('&', ' & ').replace('-', ' ')
+    return value
+
+app.jinja_env.filters['format_category'] = format_category
+
 
 """
 Functin loads the listings for the current user's college and writes into
@@ -197,7 +212,7 @@ def insert_to_db(image_path, metadata, user_data):
 @app.route('/buy')
 @login_required
 def buy():
-    print("buy")
+    return redirect(url_for('categories'))
 
 
 @app.route('/chat', methods=['GET', 'POST'])
@@ -297,7 +312,6 @@ def listings(category):
     json_file_path = "listings.json"
     with open(json_file_path, "r") as file: 
           listings = json.load(file) 
-    # filtered_listings = [listing for listing in listings if listing['category'] == category] 
 
     filtered = defaultdict(list)
     for listing in listings:

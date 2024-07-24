@@ -37,13 +37,17 @@
       </div>
       <div class="form-group">
         {{ form.college.label(class="form-control-label") }}
-        <label for="college">Select or enter a college:</label>
-            <input list="colleges" id="college" name="college">
-            <datalist id="colleges">
-                {% for college in colleges %}
-                    <option value="{{ college }}">{{ college }}</option>
-                {% endfor %}
-            </datalist>
+        <input
+          list="colleges"
+          id="college"
+          class="form-control form-control-lg"
+          name="college"
+        />
+        <datalist id="colleges">
+          {% for college in colleges %}
+          <option value="{{ college }}">{{ college }}</option>
+          {% endfor %}
+        </datalist>
         <div id="college-list"></div>
       </div>
       <div class="form-group">

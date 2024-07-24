@@ -1,106 +1,141 @@
-{% extends "base.html" %}
-{% block content %}
+{% extends "base.html" %} {% block content %}
 
 <link
   rel="stylesheet"
   type="text/css"
   href="{{ url_for('static', filename='sell.css') }}"
 />
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <title>Upload Image</title>
-</head>
-<body>
 
-    <!-- Upload Form -->
-    <form method="post" enctype="multipart/form-data" action="/sell">
-        <!--First Name -->
-        <div>
-            <label for="first">First Name:</label>
-            <input type="text" id="first" name="first" required>
-        </div>
-        <!-- Last Name -->
-        <div>
-            <label for="last">Last Name:</label>
-            <input type="text" id="last" name="last" required>
-        </div>
-        <!-- Email -->
-        <div>
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
-        </div>
-        <!-- Item being sold -->
-        <div>
-            <label for="item">Item Name:</label>
-            <input type="text" id="item" name="item" required>
-        </div>
-        <!-- Condition -->
-        <div>
-            <label for="condition">Condition:</label>
-            <select id="condition" name="condition" required>
-                <option value="">Select Condition</option>
-                <option value="worn">Worn</option>
-                <option value="used, but still in good shape">Used, but still in good shape</option>
-                <option value="unused">Unused</option>
-            </select>
-        </div>
-        <!-- Category -->
-        <div>
-            <label for="Category">Category:</label>
-            <select id="category" name="category" required>
-                <option value="">Select Category</option>
-                <option value="appliances">Appliances</option>
-                <option value="study-supplies">Study Supplies</option>
-                <option value="organization&storage">Organization & Storage</option>
-                <option value="laundry&cleaning">Laundry & Cleaning</option>
-                <option value="decorations">Decorations</option>
-                <option value="bed&bath">Bed & Bath</option>
-            </select>
-        </div>
-        <!-- Colleges -->
-        <div>
-            <label for="college">Select or enter a college:</label>
-            <input list="colleges" id="college" name="college">
-            <datalist id="colleges">
-                {% for college in colleges %} <!-- Jinja2 Syntax -->
-                    <option value="{{ college }}">{{ college }}</option>
-                {% endfor %}
-            </datalist>
-        </div>
-        <!-- Price -->
-        <div>
-            <label for="price">Money in Dollars:</label>
-            <input type="number" id="price" name="price" min="0" step="1" placeholder="Enter amount" required>
-        </div>
-        <!-- Image File -->
-        <div>
-            <label for="file">Select image:</label>
-            <input type="file" id="file" name="file" accept="image/*" required>
-        </div>
-        <!-- Description -->
-        <div>
-            <label for="description">Description:</label>
-            <input type="text" id="description" name="description" required>
-        </div>
-        <!-- Tags -->
-        <div>
-            <label for="tags">Tags (comma separated):</label>
-            <input type="text" id="tags" name="tags" required>
-        </div>
-        <!-- Date -->
-        <div>
-            <label for="upload_date">Upload Date:</label>
-            <input type="date" id="upload_date" name="upload_date" required>
-        </div>
-        <!-- Submit Button -->
-        <div>
-            <button type="submit">Upload</button>
-        </div>
-    </form>
-    
-</body>
-</html>
+<div class="sell-container">
+  <!-- Upload Form -->
+  <legend class="border-bottom mb-4">Post New Listing</legend>
+  <form method="post" enctype="multipart/form-data" action="/sell">
+    <!-- First Name -->
+
+    <div class="mb-3">
+      <label for="first" class="form-label">First Name:</label>
+      <input
+        type="text"
+        class="form-control"
+        id="first"
+        name="first"
+        required
+      />
+    </div>
+    <!-- Last Name -->
+    <div class="mb-3">
+      <label for="last" class="form-label">Last Name:</label>
+      <input type="text" class="form-control" id="last" name="last" required />
+    </div>
+    <!-- Email -->
+    <div class="mb-3">
+      <label for="email" class="form-label">Email:</label>
+      <input
+        type="email"
+        class="form-control"
+        id="email"
+        name="email"
+        required
+      />
+    </div>
+    <!-- Item being sold -->
+    <div class="mb-3">
+      <label for="item" class="form-label">Item Name:</label>
+      <input type="text" class="form-control" id="item" name="item" required />
+    </div>
+    <!-- Condition -->
+    <div class="mb-3">
+      <label for="condition" class="form-label">Condition:</label>
+      <select class="form-select" id="condition" name="condition" required>
+        <option value="">Select Condition</option>
+        <option value="worn">Worn</option>
+        <option value="used, but still in good shape">
+          Used, but still in good shape
+        </option>
+        <option value="unused">Unused</option>
+      </select>
+    </div>
+    <!-- Category -->
+    <div class="mb-3">
+      <label for="category" class="form-label">Category:</label>
+      <select class="form-select" id="category" name="category" required>
+        <option value="">Select Category</option>
+        <option value="appliances">Appliances</option>
+        <option value="study-supplies">Study Supplies</option>
+        <option value="organization&storage">Organization & Storage</option>
+        <option value="laundry&cleaning">Laundry & Cleaning</option>
+        <option value="decorations">Decorations</option>
+        <option value="bed&bath">Bed & Bath</option>
+      </select>
+    </div>
+    <!-- Colleges -->
+    <div class="mb-3">
+      <label for="college" class="form-label">Select or enter a college:</label>
+      <input list="colleges" class="form-control" id="college" name="college" />
+      <datalist id="colleges">
+        {% for college in colleges %}
+        <option value="{{ college }}">{{ college }}</option>
+        {% endfor %}
+      </datalist>
+    </div>
+    <!-- Price -->
+    <div class="mb-3">
+      <label for="price" class="form-label">Money in Dollars:</label>
+      <input
+        type="number"
+        class="form-control"
+        id="price"
+        name="price"
+        min="0"
+        step="1"
+        placeholder="Enter amount"
+        required
+      />
+    </div>
+    <!-- Image File -->
+    <div class="mb-3">
+      <label for="file" class="form-label">Select image:</label>
+      <input
+        type="file"
+        class="form-control"
+        id="file"
+        name="file"
+        accept="image/*"
+        required
+      />
+    </div>
+    <!-- Description -->
+    <div class="mb-3">
+      <label for="description" class="form-label">Description:</label>
+      <input
+        type="text"
+        class="form-control"
+        id="description"
+        name="description"
+        required
+      />
+    </div>
+    <!-- Tags -->
+    <div class="mb-3">
+      <label for="tags" class="form-label">Tags (comma separated):</label>
+      <input type="text" class="form-control" id="tags" name="tags" required />
+    </div>
+    <!-- Date -->
+    <div class="mb-3">
+      <label for="upload_date" class="form-label">Upload Date:</label>
+      <input
+        type="date"
+        class="form-control"
+        id="upload_date"
+        name="upload_date"
+        required
+      />
+    </div>
+    <!-- Submit Button -->
+    <div class="mb-3" id="submit-btn">
+      <button type="submit" class="btn btn-primary">Upload</button>
+    </div>
+  </form>
+</div>
 
 {% endblock %}

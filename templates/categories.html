@@ -18,7 +18,7 @@
           <img src="{{ image_url }}" alt="{{ category }}" />
         </div>
       </a>
-      <h3>{{ category }}</h3>
+      <h3>{{ category | format_category }}</h3>
     </div>
     {% endfor %}
   </div>

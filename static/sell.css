@@ -1,117 +1,86 @@
-/* General Body Styles */
-body {
-  font-family: 'Arial', sans-serif;
-  background-color: #f8f9fa;
-  margin: 0;
-  padding: 0;
-}
-
-/* Main Container Styles */
 main {
   display: flex;
   justify-content: center;
-  padding: 40px;
+  padding: 42px;
 }
 
-/* Centered Container for Form */
-.sell-container {
+.btn-mb-3 {
+  padding: 20px;
   display: flex;
-  flex-direction: column;
+  justify-content: center;
+}
+
+.col-md-8 {
+  flex: auto;
+  display: flex;
+  justify-content: center;
+  width: 700px;
+}
+
+.sell-container {
   justify-content: center;
   align-items: center;
-  padding: 30px;
-  background-color: #ffffff;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  max-width: 600px;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 700px;
 }
 
-/* Title Styling */
-.title {
-  font-size: 24px;
-  font-weight: bold;
-  margin-bottom: 20px;
-  text-align: center;
-  color: #343a40;
+.form-control {
+  margin-bottom: 10px;
 }
 
-/* Form Elements Styles */
-form {
-  width: 100%;
-}
-
-div {
+.form-group {
   margin-bottom: 15px;
 }
 
-label {
-  display: block;
-  font-weight: bold;
-  margin-bottom: 6px;
-  font-size: 14px;
+#college {
+  height: 38px;
 }
 
-input[type="text"],
-input[type="email"],
-input[type="number"],
-input[type="date"],
-select,
-input[type="file"],
-textarea {
-  width: 80%;
-  padding: 10px;
-  border-radius: 6px;
-  border: 1px solid #ced4da;
-  font-size: 14px;
-  box-sizing: border-box;
-  margin: 0 auto; /* Center the input boxes */
+.btn-container {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
 }
 
-/* Placeholder Styling */
-input[type="text"]::placeholder,
-input[type="number"]::placeholder {
-  color: #6c757d;
+.btn-outline-secondary {
+  background-color: #42858c !important;
+  color: white !important;
 }
 
-/* Select Dropdown Styling */
-select {
-  background-color: #ffffff;
+.btn-outline-secondary:hover {
+  background-color: white !important;
+  color: #42858c !important;
 }
 
-/* Button Styling */
-button[type="submit"],
-button[type="button"] {
-  background-color: #007bff;
+.btn-outline-info {
   color: white;
-  border: none;
-  padding: 12px 24px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 16px;
-  transition: background-color 0.3s;
-  display: block;
-  margin: 0 auto; /* Center the buttons */
+  border-color: white;
 }
 
-button[type="submit"]:hover,
-button[type="button"]:hover {
-  background-color: #0056b3;
+.btn {
+  border-radius: 20px;
+  background-color: #397367;
+  color: white;
+  width: 300px;
+  height: 50px;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-  .sell-container {
-    padding: 20px;
-  }
+.btn:hover {
+  color: #397367;
+  background-color: white;
+  border-color: #397367;
+}
 
-  input[type="text"],
-  input[type="email"],
-  input[type="number"],
-  input[type="date"],
-  select,
-  input[type="file"],
-  textarea {
-    width: 100%;
-  }
+#submit-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 10px;
+}
+
+.invalid-feedback {
+  color: red;
 }

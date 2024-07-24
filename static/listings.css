@@ -33,23 +33,20 @@ h4 {
 }
 
 .card {
-  height:535px;
   width: 400px;
+  height: 540px;
   transition: transform 0.15s ease-in-out, box-shadow 0.15s ease-in-out,
     opacity 0.15s ease-in-out;
   padding: 20px;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Slight shadow at borders */
-  /*Added*/
-
 }
 
 .card-img-top {
-  height:350px;
-  width: 350px;
   background-color: #397367;
-  padding: 7px;
+  padding: 10px;
   border-radius: 20px;
+  height: 380px;
+  width: 360px;
 }
 
 .msg-btn {
@@ -91,4 +88,8 @@ h4 {
   padding: 20px;
   box-sizing: border-box;
   z-index: 1;
+}
+
+span {
+  font-weight: normal;
 }

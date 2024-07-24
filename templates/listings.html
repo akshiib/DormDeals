@@ -23,14 +23,14 @@
           alt="{{ listing.name }}"
         />
         <div class="card-body">
-          <h5 class="card-title">{{ listing.name }}</h5>
+          <h5 class="card-title">{{ listing.item }}</h5>
           <h5 class="card-text">{{ listing.price }}</h5>
         </div>
         <a href="{{ url_for('chat', seller=listing.name.replace(' ', '').lower()) }}">
           <button class="msg-btn">Message Seller</button>
         </a>
         <div class="overlay-info">
-          <h2>{{ listing.name }}</h2>
+          <h2>{{ listing.item }}</h2>
           <h4>Item Details</h4>
           <h6>Description: {{ listing.description }}</h6>
           <h6>Condition: {{ listing.condition }}</h6>

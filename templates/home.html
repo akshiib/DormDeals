@@ -60,12 +60,12 @@
         <div class="col-md-4 mb-4">
           <div class="card">
             <img
-              src="{{ listing.image }}"
+              src="data:image/jpeg;base64,{{ listing.image }}" 
               class="card-img-top"
               alt="{{ listing.name }}"
             />
             <div class="card-body">
-              <h5 class="card-title">{{ listing.name }}</h5>
+              <h5 class="card-title">{{ listing.item }}</h5>
               <h5 class="card-text">{{ listing.price }}</h5>
             </div>
             {% if current_user.is_authenticated %}
@@ -78,7 +78,7 @@
             </a>
             {% endif %}
             <div class="overlay-info">
-              <h2>{{ listing.name }}</h2>
+              <h2>{{ listing.item }}</h2>
               <h4>Item Details</h4>
               <h6>Description: {{ listing.description }}</h6>
               <h6>Condition: {{ listing.condition }}</h6>

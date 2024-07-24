@@ -53,56 +53,32 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 
+"""
+Functin loads the listings for the current user's college and writes into
+file listings.json
+"""
+def retrieve_user_college():
+    user_college = "University Of Maryland-College Park"#current_user.college
+    cursor = collection.find({"college":user_college})
+    # entries = list(cursor)
+    entries = []
+    for entry in cursor:
+        entry["_id"] = str(entry["_id"])  # Convert ObjectId to string
+        entries.append(entry)
+    
+    with open("listings.json", "w") as file:
+        json.dump(entries, file, indent=4)
+
+
 # Route for home
 @app.route('/')
 def home():
-    mock_listings = [
-        {
-            "name": "pillow",
-            "image": url_for('static', filename='images/bed-bath.png'),
-            "price": "$10",
-            "condition": "middle",
-            "category": "bed & bath"
-        },
-        {
-            "name": "poster",
-            "image": url_for('static', filename='images/bed-bath.png'),
-            "price": "$5",
-            "condition": "high",
-            "category": "decorations"
-        },
-        {
-            "name": "Detergent",
-            "image": url_for('static', filename='images/bed-bath.png'),
-            "price": "$20",
-            "condition": "low",
-            "description": "red blanket",
-            "email": "email@wmial.com",
-            "category": "laundry & cleaning"
-        },
-        {
-            "name": "dresser",
-            "image": url_for('static', filename='images/bed-bath.png'),
-            "price": "$50",
-            "condition": "middle",
-            "category": "organization & storage",
-        },
-        {
-            "name": "kettle",
-            "image": url_for('static', filename='images/bed-bath.png'),
-            "price": "$15",
-            "condition": "high",
-            "category": "appliances"
-        },
-        {
-            "name": "desk lamp",
-            "image": url_for('static', filename='images/bed-bath.png'),
-            "price": "$5",
-            "wear": "high",
-            "condition": "medium",
-            "category": "study supplies",
-        }
-    ]
+    retrieve_user_college()
+    with open("listings.json", "r") as file:
+        listings = json.load(file)
+    mock_listings = []
+    for i in range(9):
+        mock_listings.append(listings[i])
     return render_template('home.html', listings=mock_listings)
 
 
@@ -196,18 +172,6 @@ def retrieve_college_cursors():
         college_cursors[college] = cursor
 
     return college_cursors
-
-def retrieve_user_college():
-    user_college = "University Of Maryland-College Park"#current_user.college
-    cursor = collection.find({"college":user_college})
-    # entries = list(cursor)
-    entries = []
-    for entry in cursor:
-        entry["_id"] = str(entry["_id"])  # Convert ObjectId to string
-        entries.append(entry)
-    
-    with open("listings.json", "w") as file:
-        json.dump(entries, file, indent=4)
 
 
 # Function checks if the image has extensions in ALLOWED EXTENSIONS -> png, jpg, jpeg

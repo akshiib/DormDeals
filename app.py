@@ -315,7 +315,7 @@ def listings(category):
 
     filtered = defaultdict(list)
     for listing in listings:
-        filtered[listing['category']].append(listing)   
+        filtered[listing['category']].append(listing)
 
     categories = [
         "bed&bath",

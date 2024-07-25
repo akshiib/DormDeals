@@ -170,9 +170,7 @@ def find_chats_with_user(seller):
     participants.sort()
     query = { "participants": participants }        # return chats where participants array contains the param user
     chats = list(chat_collection.find(query))
-
-    # render chat(chats=chats)
-    return chats
+    return render_template('chat.html', chats=chats)
 
 
 # Function checks if the image has extensions in ALLOWED EXTENSIONS -> png, jpg, jpeg

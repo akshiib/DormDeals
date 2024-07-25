@@ -14,7 +14,7 @@ from front.forms import RegistrationForm, LoginForm, SellForm
 from collections import defaultdict
 from flask import Flask, render_template, flash, redirect, url_for, request, jsonify
 from flask_login import LoginManager, current_user, login_user, logout_user, login_required
-
+from flask_cors import CORS
 
 load_dotenv()
 
@@ -36,6 +36,7 @@ UPLOAD_FOLDER = 'uploads'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 
 app = Flask(__name__)
+CORS(app)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['SECRET_KEY'] = os.urandom(24)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
